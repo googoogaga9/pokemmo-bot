@@ -2,7 +2,7 @@
 Beats the game with no hands.
 
 # macOS / Linux
-## Create a virtual environment
+## Create a virtual environment (run once)
 python3 -m venv venv
 
 ## Activate the virtual environment
@@ -15,7 +15,7 @@ pip install -r requirements.txt
 python3 main.py
 
 # Windows
-## Create a virtual environment
+## Create a virtual environment (run once)
 python -m venv .venv
 
 ## Activate the virtual environment
