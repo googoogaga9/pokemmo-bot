@@ -25,6 +25,7 @@ def wait(min_wait=0, max_wait=10):
 
 def move_left(spaces=1):
     """Move left a certain number of spaces."""
+    global DIRECTION_FACING
     turn_time = TIME_TO_TURN
     if DIRECTION_FACING == 'L':
         turn_time = 0
@@ -36,6 +37,7 @@ def move_left(spaces=1):
 
 def move_right(spaces=1):
     """Move right a certain number of spaces."""
+    global DIRECTION_FACING
     turn_time = TIME_TO_TURN
     if DIRECTION_FACING == 'R':
         turn_time = 0
@@ -47,6 +49,7 @@ def move_right(spaces=1):
 
 def move_up(spaces=1):
     """Move up a certain number of spaces."""
+    global DIRECTION_FACING
     turn_time = TIME_TO_TURN
     if DIRECTION_FACING == 'U':
         turn_time = 0
@@ -58,6 +61,7 @@ def move_up(spaces=1):
 
 def move_down(spaces=1):
     """Move down a certain number of spaces."""
+    global DIRECTION_FACING
     turn_time = TIME_TO_TURN
     if DIRECTION_FACING == 'D':
         turn_time = 0
