@@ -8,8 +8,12 @@ RIGHT_KEY = 'd'
 UP_KEY = 'w'
 DOWN_KEY = 's'
 
-# Define the time it takes to move one space
-TIME_PER_SPACE = 0.22
+# Define the time it takes to move one space when facing the direction
+TIME_PER_SPACE = 0.20
+# The time it takes to turn the character to face the correct direction
+TIME_TO_TURN = 0.2
+# Direction the character is facing
+DIRECTION_FACING = 'D'
 
 def random_delay(min_delay=-10, max_delay=10):
     """Generate a cryptographically secure random delay between min_delay and max_delay seconds."""
@@ -21,31 +25,47 @@ def wait(min_wait=0, max_wait=10):
 
 def move_left(spaces=1):
     """Move left a certain number of spaces."""
+    turn_time = TIME_TO_TURN
+    if DIRECTION_FACING == 'L':
+        turn_time = 0
     pyautogui.keyDown(LEFT_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05))
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
     pyautogui.keyUp(LEFT_KEY)
-    time.sleep(random_delay(0.1, 0.5))  # Small randomized delay after moving
+    time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
+    DIRECTION_FACING = 'L'
 
 def move_right(spaces=1):
     """Move right a certain number of spaces."""
+    turn_time = TIME_TO_TURN
+    if DIRECTION_FACING == 'R':
+        turn_time = 0
     pyautogui.keyDown(RIGHT_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05))
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
     pyautogui.keyUp(RIGHT_KEY)
-    time.sleep(random_delay(0.1, 0.5))  # Small randomized delay after moving
+    time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
+    DIRECTION_FACING = 'R'
 
 def move_up(spaces=1):
     """Move up a certain number of spaces."""
+    turn_time = TIME_TO_TURN
+    if DIRECTION_FACING == 'U':
+        turn_time = 0
     pyautogui.keyDown(UP_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05))
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
     pyautogui.keyUp(UP_KEY)
-    time.sleep(random_delay(0.1, 0.5))  # Small randomized delay after moving
+    time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
+    DIRECTION_FACING = 'U'
 
 def move_down(spaces=1):
     """Move down a certain number of spaces."""
+    turn_time = TIME_TO_TURN
+    if DIRECTION_FACING == 'D':
+        turn_time = 0
     pyautogui.keyDown(DOWN_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05))
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
     pyautogui.keyUp(DOWN_KEY)
-    time.sleep(random_delay(0.1, 0.5))  # Small randomized delay after moving
+    time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
+    DIRECTION_FACING = 'D'
 
 def run_back_and_forth():
     """Run back and forth 5 spaces continuously."""
@@ -57,22 +77,27 @@ def follow_path():
     """Run between the PC and the PokeMart in Viridian City"""
     while True:
         move_down(5)
-        wait(2, 3)
+        wait(2, 2.5)
         move_right(5)
         move_up(6)
         move_right(5)
         move_up(2)
-        wait(2,3)
+        wait(2,2.5)
         move_up(4)
 
         move_down(5)
-        wait(2, 3)
+        wait(2, 2.5)
         move_left(5)
         move_down(7)
         move_left(5)
         move_up(1)
-        wait(2,3)
+        wait(2,2.5)
         move_up(4)
+
+def follow_up():
+    move_up(1)
+    wait(2, 2.5)
+    move_up(4)
 
 def main_menu():
     """Display the main menu and prompt the user to select an option."""
