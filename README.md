@@ -16,10 +16,10 @@ python3 main.py
 
 # Windows
 ## Create a virtual environment (run once)
-python -m venv myvenv
+python -m venv .venv
 
 ## Activate the virtual environment
-.\myvenv\Scripts\activate
+.\.venv\Scripts\activate
 
 ## Install dependencies
 pip install -r requirements.txt
