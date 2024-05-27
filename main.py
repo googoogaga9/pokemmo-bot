@@ -72,29 +72,35 @@ def move_down(spaces=1):
     DIRECTION_FACING = 'D'
 
 def run_back_and_forth():
-    """Run back and forth 5 spaces continuously."""
+    """Run back and forth about 5 spaces continuously."""
+    move_right(2)
     while True:
-        move_left(5)
-        move_right(5)
+        extra_step = secrets.choice([-1, 0, 0, 0, 1])
+        move_left(5 + extra_step)
+        move_right(5 - extra_step)
 
 def follow_path():
     """Run between the PC and the PokeMart in Viridian City"""
     while True:
+        dx1 = secrets.choice([-1, 0, 0, 0, 1])
+        dy1 = secrets.choice([-1, 0, 0, 0, 1])
         move_down(5)
         wait(2, 2.5)
-        move_right(5)
-        move_up(6)
-        move_right(5)
-        move_up(2)
+        move_right(5 + dx1)
+        move_up(6 + dy1)
+        move_right(5 - dx1)
+        move_up(2 - dy1)
         wait(2,2.5)
         move_up(4)
 
+        dx2 = secrets.choice([-1, 0, 0, 0, 1])
+        dy2 = secrets.choice([-1, 0, 0, 0, 1])
         move_down(5)
         wait(2, 2.5)
-        move_left(5)
-        move_down(7)
-        move_left(5)
-        move_up(1)
+        move_left(5 + dx2)
+        move_down(8 + dy2)
+        move_left(5 - dx2)
+        move_up(2 - dy2)
         wait(2,2.5)
         move_up(4)
 
