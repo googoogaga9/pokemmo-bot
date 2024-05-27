@@ -6,7 +6,7 @@ Beats the game with no hands.
 python3 -m venv venv
 
 ## Activate the virtual environment
-source venv/bin/activate
+source .venv/bin/activate
 
 ## Install dependencies
 pip install -r requirements.txt
@@ -16,10 +16,10 @@ python3 main.py
 
 # Windows
 ## Create a virtual environment
-python -m venv venv
+python -m venv .venv
 
 ## Activate the virtual environment
-.\venv\Scripts\activate
+.\.venv\Scripts\activate
 
 ## Install dependencies
 pip install -r requirements.txt
