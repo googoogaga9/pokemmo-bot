@@ -3,8 +3,8 @@ import time
 import secrets
 
 # Define constants for the movement keys
-LEFT_KEY = 'left'
-RIGHT_KEY = 'right'
+LEFT_KEY = 'a'
+RIGHT_KEY = 'd'
 
 def random_delay(min_delay=0.5, max_delay=1.5):
     """Generate a cryptographically secure random delay between min_delay and max_delay seconds."""
