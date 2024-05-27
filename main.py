@@ -1,128 +1,116 @@
 import pyautogui
 import time
 import secrets
-import tkinter as tk
-from tkinter import messagebox
 
-class MovementSimulator:
-    LEFT_KEY = 'a'
-    RIGHT_KEY = 'd'
-    UP_KEY = 'w'
-    DOWN_KEY = 's'
-    TIME_PER_SPACE = 0.20
-    TIME_TO_TURN = 0.12
+# Define constants for the movement keys
+LEFT_KEY = 'a'
+RIGHT_KEY = 'd'
+UP_KEY = 'w'
+DOWN_KEY = 's'
 
-    def __init__(self):
-        self.direction_facing = 'D'
+# Define the time it takes to move one space when facing the direction
+TIME_PER_SPACE = 0.20
+# The time it takes to turn the character to face the correct direction
+TIME_TO_TURN = 0.12
+# Direction the character is facing
+DIRECTION_FACING = 'D'
 
-    def random_delay(self, min_delay=-10, max_delay=10):
-        """Generate a cryptographically secure random delay between min_delay and max_delay seconds."""
-        return min_delay + (max_delay - min_delay) * secrets.SystemRandom().random()
+def random_delay(min_delay=-10, max_delay=10):
+    """Generate a cryptographically secure random delay between min_delay and max_delay seconds."""
+    return min_delay + (max_delay - min_delay) * secrets.SystemRandom().random()
 
-    def wait(self, min_wait=0, max_wait=10):
-        """Wait a random number of seconds between min_wait and max_wait."""
-        time.sleep(self.random_delay(min_wait, max_wait))
+def wait(min_wait=0, max_wait=10):
+    """Wait a random number of seconds between min_wait and max_wait."""
+    time.sleep(random_delay(min_wait, max_wait))
 
-    def move(self, direction_key, direction_char, spaces=1):
-        """Move in a specified direction a certain number of spaces."""
-        turn_time = self.TIME_TO_TURN if self.direction_facing != direction_char else 0
-        pyautogui.keyDown(direction_key)
-        time.sleep(self.TIME_PER_SPACE * spaces + self.random_delay(-0.02, 0.02) + turn_time)
-        pyautogui.keyUp(direction_key)
-        time.sleep(self.random_delay(0.1, 0.2))  # Small randomized delay after moving
-        self.direction_facing = direction_char
+def move(direction_key, direction_char, spaces=1):
+    """Move in a specified direction a certain number of spaces."""
+    global DIRECTION_FACING
+    turn_time = TIME_TO_TURN if DIRECTION_FACING != direction_char else 0
+    pyautogui.keyDown(direction_key)
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.02, 0.02) + turn_time)
+    pyautogui.keyUp(direction_key)
+    time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
+    DIRECTION_FACING = direction_char
 
-    def move_left(self, spaces=1):
-        """Move left a certain number of spaces."""
-        self.move(self.LEFT_KEY, 'L', spaces)
+def move_left(spaces=1):
+    """Move left a certain number of spaces."""
+    move(LEFT_KEY, 'L', spaces)
 
-    def move_right(self, spaces=1):
-        """Move right a certain number of spaces."""
-        self.move(self.RIGHT_KEY, 'R', spaces)
+def move_right(spaces=1):
+    """Move right a certain number of spaces."""
+    move(RIGHT_KEY, 'R', spaces)
 
-    def move_up(self, spaces=1):
-        """Move up a certain number of spaces."""
-        self.move(self.UP_KEY, 'U', spaces)
+def move_up(spaces=1):
+    """Move up a certain number of spaces."""
+    move(UP_KEY, 'U', spaces)
 
-    def move_down(self, spaces=1):
-        """Move down a certain number of spaces."""
-        self.move(self.DOWN_KEY, 'D', spaces)
+def move_down(spaces=1):
+    """Move down a certain number of spaces."""
+    move(DOWN_KEY, 'D', spaces)
 
-    def run_back_and_forth(self):
-        """Randomly run back and forth continuously staying within 3 spaces of the original position."""
-        step_right = 0
-        while True:
-            step_left = secrets.choice([0, 1, 2, 3])
-            self.move_left(step_left + step_right)
-            step_right = secrets.choice([0, 1, 2, 3])
-            self.move_right(step_right + step_left)
+def run_back_and_forth():
+    """Randomly run back and forth continuously staying within 3 spaces of the original position."""
+    step_right = 0
+    while True:
+        step_left = secrets.choice([0, 1, 2, 3])
+        move_left(step_left + step_right)
+        step_right = secrets.choice([0, 1, 2, 3])
+        move_right(step_right + step_left)
 
-    def follow_path(self):
-        """Run between the PC and the PokeMart in Viridian City."""
-        while True:
-            dx1 = secrets.choice([-1, 0, 0, 0, 1])
-            dy1 = secrets.choice([-1, 0, 0, 0, 1])
-            self.move_down(5)
-            self.wait(2, 2.5)
-            self.move_right(5 + dx1)
-            self.move_up(6 + dy1)
-            self.move_right(5 - dx1)
-            self.move_up(2 - dy1)
-            self.wait(2, 2.5)
-            self.move_up(4)
+def follow_path():
+    """Run between the PC and the PokeMart in Viridian City."""
+    while True:
+        dx1 = secrets.choice([-1, 0, 0, 0, 1])
+        dy1 = secrets.choice([-1, 0, 0, 0, 1])
+        move_down(5)
+        wait(2, 2.5)
+        move_right(5 + dx1)
+        move_up(6 + dy1)
+        move_right(5 - dx1)
+        move_up(2 - dy1)
+        wait(2, 2.5)
+        move_up(4)
 
-            dx2 = secrets.choice([-1, 0, 0, 0, 1])
-            dy2 = secrets.choice([-1, 0, 0, 0, 1])
-            self.move_down(5)
-            self.wait(2, 2.5)
-            self.move_left(5 + dx2)
-            self.move_down(8 + dy2)
-            self.move_left(5 - dx2)
-            self.move_up(2 - dy2)
-            self.wait(2, 2.5)
-            self.move_up(4)
+        dx2 = secrets.choice([-1, 0, 0, 0, 1])
+        dy2 = secrets.choice([-1, 0, 0, 0, 1])
+        move_down(5)
+        wait(2, 2.5)
+        move_left(5 + dx2)
+        move_down(8 + dy2)
+        move_left(5 - dx2)
+        move_up(2 - dy2)
+        wait(2, 2.5)
+        move_up(4)
 
-class Menu:
-    def __init__(self, root):
-        self.simulator = MovementSimulator()
-        self.root = root
-        self.root.title("Movement Simulator Menu")
+def main_menu():
+    """Display the main menu and prompt the user to select an option."""
+    options = {
+        "1": ("Run back and forth", run_back_and_forth),
+        "2": ("Follow path", follow_path),
+        "3": ("Exit", None)
+    }
 
-        self.label = tk.Label(root, text="Select an option:")
-        self.label.pack()
+    while True:
+        print("Select an option:")
+        for key, (description, _) in options.items():
+            print(f"{key}. {description}")
 
-        self.run_back_and_forth_button = tk.Button(root, text="Run back and forth", command=self.run_back_and_forth)
-        self.run_back_and_forth_button.pack()
+        choice = input("Enter your choice: ")
 
-        self.follow_path_button = tk.Button(root, text="Follow path", command=self.follow_path)
-        self.follow_path_button.pack()
+        if choice in options:
+            if choice == "3":
+                print("Exiting the program.")
+                break
 
-        self.exit_button = tk.Button(root, text="Exit", command=root.quit)
-        self.exit_button.pack()
-
-    def run_back_and_forth(self):
-        """Start running back and forth simulation."""
-        self.show_message("Starting 'Run back and forth' in 5 seconds. Press OK to stop.")
-        time.sleep(5)
-        try:
-            self.simulator.run_back_and_forth()
-        except KeyboardInterrupt:
-            self.show_message("Run back and forth stopped by user.")
-
-    def follow_path(self):
-        """Start following path simulation."""
-        self.show_message("Starting 'Follow path' in 5 seconds. Press OK to stop.")
-        time.sleep(5)
-        try:
-            self.simulator.follow_path()
-        except KeyboardInterrupt:
-            self.show_message("Follow path stopped by user.")
-
-    def show_message(self, message):
-        """Show a message box."""
-        messagebox.showinfo("Information", message)
+            print(f"Starting '{options[choice][0]}' in 5 seconds. Press Ctrl+C to stop.")
+            time.sleep(5)
+            try:
+                options[choice][1]()
+            except KeyboardInterrupt:
+                print(f"{options[choice][0]} stopped by user.")
+        else:
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    menu = Menu(root)
-    root.mainloop()
+    main_menu()
