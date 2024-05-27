@@ -3,10 +3,10 @@ Beats the game with no hands.
 
 # macOS / Linux
 ## Create a virtual environment (run once)
-python3 -m venv myvenv
+python3 -m venv .venv
 
 ## Activate the virtual environment
-source myvenv/bin/activate
+source .venv/bin/activate
 
 ## Install dependencies
 pip install -r requirements.txt
