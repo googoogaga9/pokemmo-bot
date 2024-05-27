@@ -11,7 +11,7 @@ DOWN_KEY = 's'
 # Define the time it takes to move one space when facing the direction
 TIME_PER_SPACE = 0.20
 # The time it takes to turn the character to face the correct direction
-TIME_TO_TURN = 0.2
+TIME_TO_TURN = 0.12
 # Direction the character is facing
 DIRECTION_FACING = 'D'
 
@@ -30,7 +30,7 @@ def move_left(spaces=1):
     if DIRECTION_FACING == 'L':
         turn_time = 0
     pyautogui.keyDown(LEFT_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.02, 0.02) + turn_time)
     pyautogui.keyUp(LEFT_KEY)
     time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
     DIRECTION_FACING = 'L'
@@ -42,7 +42,7 @@ def move_right(spaces=1):
     if DIRECTION_FACING == 'R':
         turn_time = 0
     pyautogui.keyDown(RIGHT_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.02, 0.02) + turn_time)
     pyautogui.keyUp(RIGHT_KEY)
     time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
     DIRECTION_FACING = 'R'
@@ -54,7 +54,7 @@ def move_up(spaces=1):
     if DIRECTION_FACING == 'U':
         turn_time = 0
     pyautogui.keyDown(UP_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.02, 0.02) + turn_time)
     pyautogui.keyUp(UP_KEY)
     time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
     DIRECTION_FACING = 'U'
@@ -66,7 +66,7 @@ def move_down(spaces=1):
     if DIRECTION_FACING == 'D':
         turn_time = 0
     pyautogui.keyDown(DOWN_KEY)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.05, 0.05) + turn_time)
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.02, 0.02) + turn_time)
     pyautogui.keyUp(DOWN_KEY)
     time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
     DIRECTION_FACING = 'D'
