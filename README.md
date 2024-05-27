@@ -3,26 +3,26 @@ Beats the game with no hands.
 
 # macOS / Linux
 ## Create a virtual environment (run once)
-python3 -m venv .venv
+```python3 -m venv .venv```
 
 ## Activate the virtual environment
-source .venv/bin/activate
+```source .venv/bin/activate```
 
 ## Install dependencies
-pip install -r requirements.txt
+```pip install -r requirements.txt```
 
 ## Run program
-python3 main.py
+```python3 main.py```
 
 # Windows
 ## Create a virtual environment (run once)
-python -m venv .venv
+```python -m venv .venv```
 
 ## Activate the virtual environment
 ```.\.venv\Scripts\activate```
 
 ## Install dependencies
-pip install -r requirements.txt
+```pip install -r requirements.txt```
 
 ## Run program
-python main.py
+```python main.py```
