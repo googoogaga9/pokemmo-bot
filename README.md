@@ -1,5 +1,5 @@
 # pokemmo-bot
-Beats the game with no hands.
+Beat the game with no hands.
 
 # macOS / Linux
 ## Create a virtual environment (run once)
