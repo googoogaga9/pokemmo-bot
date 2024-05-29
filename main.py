@@ -94,13 +94,13 @@ def locate_pokemon_on_screen(pokemon_images, confidence=0.99):
     """Locate any of the specified Pokémon images on the screen."""
     for pokemon, image in pokemon_images.items():
         try:
-            if pyautogui.locateOnScreen(image, confidence=confidence):
+            if pyautogui.locateOnScreen(image, confidence=confidence,region=(0,0,700,400)):
                 return pokemon
         except pyautogui.ImageNotFoundException:
             pass
     return None
 
-def check_for_pokemon(pokemon_images, timeout=5):
+def check_for_pokemon(pokemon_images, timeout=2):
     """Check for a Pokémon within the specified timeout period."""
     start_time = time.time()
     while time.time() - start_time < timeout:
@@ -108,49 +108,58 @@ def check_for_pokemon(pokemon_images, timeout=5):
         if pokemon:
             print(f"You are facing a {pokemon}!")
             return pokemon
-        time.sleep(0.1)
+        time.sleep(0.01)
+        print("Checking...")
+    print("No pokemon found.")
     return None
 
 def pokemon_still_alive(pokemon_images, min_alive_time=2):
-    """Check if the Pokémon is still alive for at least the specified time."""
+    """Check if the Pokémon is still alive within the specified time limit."""
     start_time = time.time()
     while time.time() - start_time < min_alive_time:
-        if not locate_pokemon_on_screen(pokemon_images):
-            return False
+        if locate_pokemon_on_screen(pokemon_images):
+            return True
         time.sleep(0.1)
-    return True
+    return False
 
 def fight_pokemon():
     """Initiate the fight sequence by selecting 'fight' and the first move."""
     pyautogui.press('e')  # Select 'fight'
-    wait(0.1, 0.5)
+    wait(0.1, 0.2)
     pyautogui.press('e')  # Select the first move
 
 def run_through_grass():
     """Run back and forth in the grass."""
-    delta = random.choice([-1, 0, 0, 0, 1])
-    move_left(4 + delta)
-    move_right(4 - delta)
+    step_right = 0
+    for _ in range(1):
+        step_left = random.choice([2, 3])
+        move_left(step_left + step_right)
+        step_right = random.choice([2, 3])
+        move_right(step_right + step_left)
 
 def xp_grind():
     """XP Grind"""
     pokemon_images = {
         #"Rattata": "screenshots/3.png",
         #"Mankey": "screenshots/4.png",
-        "HP Bar": "screenshots/7.png"
+        #"HP Bar": "screenshots/7.png",
+        "Ponyta": "screenshots/8.png",
+        "Rattata": "screenshots/9.png",
+        "Spearrow": "screenshots/10.png",
+        "Mankey": "screenshots/11.png",
+        "Nidoran Male": "screenshots/12.png",
+        "Nidoran Female": "screenshots/13.png",
+        "DuDuo":"screenshots/14.png"
     }
     
     while True:
         run_through_grass()
         found_pokemon = check_for_pokemon(pokemon_images)
         if found_pokemon:
-            if pokemon_still_alive(pokemon_images):
                 while pokemon_still_alive(pokemon_images):
                     fight_pokemon()
-                    wait(4, 5)  # Wait between attacks to ensure move execution
+                    wait(3, 4)  # Wait between attacks to ensure move execution
                 print(f"Defeated {found_pokemon}!")
-            else:
-                print(f"The {found_pokemon} ran away!")
 
 def main_menu():
     """Display the main menu and prompt the user to select an option."""
