@@ -108,7 +108,7 @@ def check_for_pokemon(pokemon_images, timeout=2):
         if pokemon:
             print(f"You are facing a {pokemon}!")
             return pokemon
-        time.sleep(0.01)
+        time.sleep(0.1)
         print("Checking...")
     print("No pokemon found.")
     return None
