@@ -28,7 +28,7 @@ def move(direction_key, direction_char, spaces=1):
     global DIRECTION_FACING
     turn_time = TIME_TO_TURN if DIRECTION_FACING != direction_char else 0
     pyautogui.keyDown(direction_key)
-    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.02, 0.02) + turn_time)
+    time.sleep(TIME_PER_SPACE * spaces + random_delay(-0.01, 0.01) + turn_time)
     pyautogui.keyUp(direction_key)
     time.sleep(random_delay(0.1, 0.2))  # Small randomized delay after moving
     DIRECTION_FACING = direction_char
@@ -61,6 +61,7 @@ def run_back_and_forth():
 def follow_path():
     """Run between the PC and the PokeMart in Viridian City."""
     while True:
+        # Run to PokeMart
         dx1 = secrets.choice([-1, 0, 0, 0, 1])
         dy1 = secrets.choice([-1, 0, 0, 0, 1])
         move_down(5)
@@ -71,7 +72,7 @@ def follow_path():
         move_up(2 - dy1)
         wait(2, 2.5)
         move_up(4)
-
+        # Run to PC
         dx2 = secrets.choice([-1, 0, 0, 0, 1])
         dy2 = secrets.choice([-1, 0, 0, 0, 1])
         move_down(5)
@@ -83,12 +84,77 @@ def follow_path():
         wait(2, 2.5)
         move_up(4)
 
+def locate_pokemon_on_screen(pokemon_images, confidence=0.9):
+    """Locate any of the specified Pokémon images on the screen."""
+    for pokemon, image in pokemon_images.items():
+        try:
+            if pyautogui.locateOnScreen(image, confidence=confidence):
+                return pokemon
+        except pyautogui.ImageNotFoundException:
+            pass
+    return None
+
+def check_for_pokemon(pokemon_images, timeout=5):
+    """Check for a Pokémon within the specified timeout period."""
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        pokemon = locate_pokemon_on_screen(pokemon_images)
+        if pokemon:
+            print(f"You are facing a {pokemon}!")
+            return pokemon
+        time.sleep(0.1)
+    return None
+
+def pokemon_still_alive(pokemon_images, min_alive_time=2):
+    """Check if the Pokémon is still alive for at least the specified time."""
+    start_time = time.time()
+    while time.time() - start_time < min_alive_time:
+        if not locate_pokemon_on_screen(pokemon_images):
+            return False
+        time.sleep(0.1)
+    return True
+
+def fight_pokemon():
+    """Initiate the fight sequence by selecting 'fight' and the first move."""
+    pyautogui.press('e')  # Select 'fight'
+    time.sleep(random_delay(0.1, 0.5)) 
+    pyautogui.press('e')  # Select the first move
+
+def run_through_grass():
+    """Run back and forth in the grass."""
+    delta = secrets.choice([-1, 0, 0, 0, 1])
+    move_left(4 + delta)
+    move_right(4 - delta)
+
+def xp_grind():
+    """XP Grind"""
+    pokemon_images = {
+        #"Rattata": "screenshots/3.png",
+        #"Mankey": "screenshots/4.png",
+        "HP Bar": "screenshots/7.png"
+    }
+    
+    time.sleep(5)  # Initial delay before starting the main loop
+    while True:
+        run_through_grass()
+        found_pokemon = check_for_pokemon(pokemon_images)
+        if found_pokemon:
+            if pokemon_still_alive(pokemon_images):
+                while pokemon_still_alive(pokemon_images):
+                    fight_pokemon()
+                    time.sleep(random_delay(4, 5))  # Wait between attacks to ensure move execution
+                print(f"Defeated {found_pokemon}!")
+            else:
+                print(f"The {found_pokemon} ran away!")
+            time.sleep(random_delay(1, 2))  # Wait a moment before starting to run again
+
 def main_menu():
     """Display the main menu and prompt the user to select an option."""
     options = {
         "1": ("Run back and forth", run_back_and_forth),
         "2": ("Follow path", follow_path),
-        "3": ("Exit", None)
+        "3": ("XP Grind", xp_grind),
+        "4": ("Exit", None)
     }
 
     while True:
@@ -99,7 +165,7 @@ def main_menu():
         choice = input("Enter your choice: ")
 
         if choice in options:
-            if choice == "3":
+            if choice == "4":
                 print("Exiting the program.")
                 break
 
