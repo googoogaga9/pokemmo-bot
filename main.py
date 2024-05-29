@@ -61,7 +61,7 @@ def run_back_and_forth():
 def follow_path():
     """Run between the PC and the PokeMart in Viridian City."""
     while True:
-        # Run to PokeMart
+        # Run to PokeMart using various routes
         dx1 = secrets.choice([-1, 0, 0, 0, 1])
         dy1 = secrets.choice([-1, 0, 0, 0, 1])
         move_down(5)
@@ -72,7 +72,7 @@ def follow_path():
         move_up(2 - dy1)
         wait(2, 2.5)
         move_up(4)
-        # Run to PC
+        # Run to PC using various routes
         dx2 = secrets.choice([-1, 0, 0, 0, 1])
         dy2 = secrets.choice([-1, 0, 0, 0, 1])
         move_down(5)
