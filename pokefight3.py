@@ -44,7 +44,7 @@ def fight_pokemon():
     pyautogui.press('e')  # Select the first move
 
 def run_back_and_forth():
-    """Simulate running back and forth in the grass."""
+    """Run back and forth in the grass."""
     pyautogui.keyDown('a')
     time.sleep(random_delay())
     pyautogui.keyUp('a')
@@ -66,7 +66,7 @@ def main():
             if pokemon_still_alive(pokemon_images):
                 while pokemon_still_alive(pokemon_images):
                     fight_pokemon()
-                    time.sleep(random_delay(5, 6))  # Wait between attacks to ensure move execution
+                    time.sleep(random_delay(4, 5))  # Wait between attacks to ensure move execution
                 print(f"Defeated {found_pokemon}!")
             else:
                 print(f"The {found_pokemon} ran away!")
