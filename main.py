@@ -140,8 +140,6 @@ def run_through_grass():
 def xp_grind():
     """XP Grind"""
     pokemon_images = {
-        #"Rattata": "screenshots/3.png",
-        #"Mankey": "screenshots/4.png",
         #"HP Bar": "screenshots/7.png",
         "Ponyta": "screenshots/8.png",
         "Rattata": "screenshots/9.png",
