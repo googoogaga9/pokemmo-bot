@@ -30,7 +30,7 @@ def move(direction_key, direction_enum, spaces=1):
     pyautogui.keyDown(direction_key)
     time.sleep(TIME_PER_SPACE * spaces + random.uniform(-0.01, 0.01) + turn_time)
     pyautogui.keyUp(direction_key)
-    wait(0, 0.1)
+    wait(0, 0.2)
     DIRECTION_FACING = direction_enum
 
 def move_left(spaces=1):
