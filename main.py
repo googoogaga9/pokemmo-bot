@@ -8,8 +8,9 @@ LEFT_KEY = 'a'
 RIGHT_KEY = 'd'
 UP_KEY = 'w'
 DOWN_KEY = 's'
-TIME_PER_SPACE = 0.20
-TIME_TO_TURN = 0.12
+INTERACT_KEY = 'e'
+TIME_PER_SPACE = 0.135
+TIME_TO_TURN = 0.11
 
 class Direction(Enum):
     LEFT = 'L'
@@ -27,10 +28,15 @@ def move(direction_key, direction_enum, spaces=1):
     """Move in a specified direction a certain number of spaces."""
     global DIRECTION_FACING
     turn_time = TIME_TO_TURN if DIRECTION_FACING != direction_enum else 0
+    if DIRECTION_FACING == direction_enum:
+        print("Facing foward")
+    else:
+        print("Turning")
+
     pyautogui.keyDown(direction_key)
-    time.sleep(TIME_PER_SPACE * spaces + random.uniform(-0.01, 0.01) + turn_time)
+    time.sleep(TIME_PER_SPACE * spaces + random.uniform(0, 0) + turn_time)
     pyautogui.keyUp(direction_key)
-    wait(0, 0.2)
+    wait(0.6, 0.7)
     DIRECTION_FACING = direction_enum
 
 def move_left(spaces=1):
@@ -49,6 +55,51 @@ def move_down(spaces=1):
     """Move down a certain number of spaces."""
     move(DOWN_KEY, Direction.DOWN, spaces)
 
+def run_from_pc_to_grass():
+    """Move from the PC to the grass."""
+    move_down(5)
+    # Simulate interacting with the door
+    wait(2, 2.5)
+    move_down(1)
+    move_left(5)
+    move_up(10)
+    move_left(25)
+    move_down(6)
+    move_left(7)
+    move_up(1)
+
+def run_from_grass_to_pc():
+    """Move from the grass to the PC."""
+    move_down(1)
+    move_right(7)
+    move_up(6)
+    move_right(25)
+    move_down(10)
+    move_right(5)
+    move_up(2)
+    # Simulate interacting with the door
+    wait(2, 2.5)
+    move_up(4)
+
+def heal_at_pc():
+    """Heal at the PC."""
+    move_up(1)
+    pyautogui.keyDown(INTERACT_KEY)
+    time.sleep(5.5)
+    pyautogui.keyUp(INTERACT_KEY)
+    move_down(1)
+
+def run_1_2():
+    move_up(1)
+    move_up(1)
+    move_up(2)
+    move_up(3)
+    
+    move_down(3)
+    move_down(2)
+    move_down(1)
+    move_down(1)
+
 def run_back_and_forth():
     """Randomly run back and forth continuously staying within 3 spaces of the original position."""
     step_right = 0
@@ -66,8 +117,8 @@ def follow_path():
 
 def run_to_poke_mart():
     """Run to PokeMart using various routes."""
-    dx1 = random.choice([-1, 0, 0, 0, 1])
-    dy1 = random.choice([-1, 0, 0, 0, 1])
+    dx1 = 0 #random.choice([-1, 0, 0, 0, 1])
+    dy1 = 0 #random.choice([-1, 0, 0, 0, 1])
     move_down(5)
     wait(2, 2.5)
     move_right(5 + dx1)
@@ -79,8 +130,8 @@ def run_to_poke_mart():
 
 def run_to_pc():
     """Run to PC using various routes."""
-    dx2 = random.choice([-1, 0, 0, 0, 1])
-    dy2 = random.choice([-1, 0, 0, 0, 1])
+    dx2 = 0 #random.choice([-1, 0, 0, 0, 1])
+    dy2 = 0 #random.choice([-1, 0, 0, 0, 1])
     move_down(5)
     wait(2, 2.5)
     move_left(5 + dx2)
@@ -124,9 +175,9 @@ def pokemon_still_alive(pokemon_images, min_alive_time=2):
 
 def fight_pokemon():
     """Initiate the fight sequence by selecting 'fight' and the first move."""
-    pyautogui.press('e')  # Select 'fight'
+    pyautogui.press(INTERACT_KEY)  # Select 'fight'
     wait(0.1, 0.2)
-    pyautogui.press('e')  # Select the first move
+    pyautogui.press(INTERACT_KEY)  # Select the first move
 
 def run_through_grass():
     """Run back and forth in the grass."""
@@ -162,10 +213,14 @@ def xp_grind():
 def main_menu():
     """Display the main menu and prompt the user to select an option."""
     options = {
+        "0": ("Exit Program", None),
         "1": ("Run back and forth", run_back_and_forth),
         "2": ("Follow path", follow_path),
         "3": ("XP Grind", xp_grind),
-        "4": ("Exit", None)
+        "4": ("Run from PC to Grass", run_from_pc_to_grass),
+        "5": ("Run from Grass to PC", run_from_grass_to_pc),
+        "6": ("Heal at PC", heal_at_pc),
+        "7": ("Run 1 2", run_1_2)
     }
 
     while True:
@@ -176,8 +231,9 @@ def main_menu():
         choice = input("Enter your choice: ")
 
         if choice in options:
-            if choice == "4":
+            if choice == "0":
                 print("Exiting the program.")
+                print()
                 break
 
             print(f"Starting '{options[choice][0]}' in 5 seconds. Press Ctrl+C to stop.")
@@ -188,6 +244,7 @@ def main_menu():
                 print(f"{options[choice][0]} stopped by user.")
         else:
             print("Invalid choice. Please try again.")
+            print()
 
 if __name__ == "__main__":
     main_menu()
